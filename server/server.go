@@ -2,8 +2,8 @@ package server
 
 import (
 	"account-web/config"
-	"account-web/handler"
 	"account-web/initialize"
+	"account-web/v1/handler"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"sync"
@@ -13,10 +13,6 @@ func Start() error {
 	// 初始化配置
 	config.LoadYaml()
 
-	//err := config.Load()
-	//if err != nil {
-	//	return err
-	//}
 	// 初始化grpc客户端
 	err := initialize.InitGrpcClient()
 	if err != nil {
