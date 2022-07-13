@@ -1,6 +1,8 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func RegisterGetRouter(engine *gin.Engine, groupPath string, handlerMap map[string]gin.HandlerFunc) {
 	group := engine.Group(groupPath)

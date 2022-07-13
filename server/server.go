@@ -23,10 +23,9 @@ func Start() error {
 	engine := gin.Default()
 	engine.Use(gin.Recovery())
 
-	group := engine.Group("/account")
-	{
-		group.GET("list", handler.GetAccountList)
-	}
+	group := engine.Group("/v1")
+	group.GET("/account/list", handler.GetAccountList)
+	//router.RegisterGetRouter(engine, "/v1", handler.GetHandlerMap)
 
 	wg := sync.WaitGroup{}
 

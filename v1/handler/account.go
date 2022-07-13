@@ -27,7 +27,7 @@ var (
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
-// @Router /v1/account/list [post]
+// @Router /v1/account/list [get]
 func GetAccountList(c *gin.Context) {
 	var err error
 	defer func() {
@@ -35,7 +35,6 @@ func GetAccountList(c *gin.Context) {
 			_ = c.Error(err)
 		}
 	}()
-	GetHandlerMap["/account/list"] = GetAccountList
 	pageNo := c.Query("pageNo")
 	pageSize := c.Query("pageSize")
 	uintPageNo, err := strconv.ParseUint(pageNo, 10, 64)
