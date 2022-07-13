@@ -1,0 +1,51 @@
+definitions:
+  model.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/account/list:
+    get:
+      consumes:
+      - application/json
+      operationId: GetAccountList
+      parameters:
+      - description: The Request PageNo
+        in: query
+        name: pageNo
+        required: true
+        type: integer
+      - description: The Request PageSize
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: GetAccountList
+      tags:
+      - GetAccountList
+swagger: "2.0"
