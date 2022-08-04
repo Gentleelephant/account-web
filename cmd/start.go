@@ -18,10 +18,7 @@ var startCmd = &cobra.Command{
 	Long:  `start the server`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("start server...")
-		err := server.Start()
-		if err != nil {
-			fmt.Println(err)
-		}
+		server.Start()
 	},
 }
 
@@ -38,5 +35,5 @@ func init() {
 	// is called directly, e.g.:
 	// startCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	startCmd.Flags().StringVarP(&config.FilePath, "config file", "f", "", "config file")
+	startCmd.Flags().StringVarP(&config.FilePath, "config file", "c", "", "config file")
 }

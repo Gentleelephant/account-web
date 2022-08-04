@@ -11,11 +11,10 @@ import (
 var AccountServiceClient pb.AccountServiceClient
 
 func InitGrpcClient() error {
+	host := config.LocalConfig.GetString("account-srv.host")
+	port := config.LocalConfig.GetInt("account-srv.port")
 
-	fmt.Println("Host:", config.Config.AccountServerConfig.Host)
-	fmt.Println("Port:", config.Config.AccountServerConfig.Port)
-
-	dial, err := grpc.Dial(fmt.Sprintf("%s:%d", config.Config.AccountServerConfig.Host, config.Config.AccountServerConfig.Port), grpc.WithTransportCredentials(insecure.NewCredentials()))
+	dial, err := grpc.Dial(fmt.Sprintf("%s:%d", host, port), grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		return err
 	}

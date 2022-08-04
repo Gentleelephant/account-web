@@ -1,3 +1,40 @@
-account_server:
-  host: "127.0.0.1"
-  port: 9901
+logger:
+  level: "info"
+  #  dateformat: '%Y-%m-%d %H:%M:%S'
+  maxSize: 100
+  maxAge: 1
+  maxBackups: 10
+  timeKey: "Time"
+  levelKey: "Level"
+  nameKey: "Logger"
+  messageKey: "Message"
+  callerKey: "CallerLine"
+  functionKey: "Func"
+  stacktraceKey: "Stacktrace"
+  lineEnding: "\n"
+  encoding: "json" # json or console
+  outputPath: "./logs/zap.log"
+  development: true
+
+nacos:
+  ipAddr: "139.198.155.59"
+  port: 8848
+  namespaceId: "ff86146f-2ed9-420d-8910-3ea2d9988dff"
+  dataId: "dev"
+  group: "DEFAULT_GROUP"
+  logDir: "./logs"
+  logLevel: "info"
+  cacheDir: "./cache"
+  contextPath: "/nacos"
+  scheme: "http"
+  beatInterval: 1000
+  timeoutMs: 1000
+service:
+  name: account-web
+  port: 8901
+  cluster: "DEFAULT"
+  group: "DEFAULT_GROUP"
+
+account-srv:
+  host: "139.198.155.59"
+  port: 8899
