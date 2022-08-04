@@ -29,11 +29,10 @@ nacos:
   scheme: "http"
   beatInterval: 1000
   timeoutMs: 1000
-service:
-  name: account-web
-  port: 20003
   cluster: "DEFAULT"
-  group: "DEFAULT_GROUP"
+service:
+  name: "account-web"
+  port: 20003
 
 account-srv:
   host: "139.198.155.59"
