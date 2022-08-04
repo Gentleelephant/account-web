@@ -13,3 +13,6 @@ clean:
 	@rm -rf ./logs
 doc:
 	@swag init --parseDependency --parseInternal
+
+update:
+	@git pull
