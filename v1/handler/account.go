@@ -5,6 +5,7 @@ import (
 	"account-web/model"
 	pb "github.com/Gentleelephant/proto-center/pb/model"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"strconv"
 )
 
@@ -19,7 +20,7 @@ var (
 // @Summary GetAccountList
 // @GetAccountList get account list
 // @ID GetAccountList
-// @Tags GetAccountList
+// @Tags Account
 // @Accept json
 // @Produce json
 // @Param pageNo query uint true "The Request PageNo"
@@ -52,9 +53,92 @@ func GetAccountList(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	c.JSON(200, model.Response{
-		Code:    200,
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
 		Message: "success",
 		Data:    list,
 	})
+}
+
+// GetAccountByMobile
+// @Summary GetAccountByMobile
+// @GetAccountByMobile get account
+// @ID GetAccountByMobile
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param mobile query string true "The user mobile"
+// @Success 200 {object} model.Response
+// @Failure default {object} model.Response "Return if any error"
+// @Header all {string} X-Request-Id "The unique id with this request"
+// @Router /v1/account/mobile [get]
+func GetAccountByMobile(c *gin.Context) {
+	var err error
+	defer func() {
+		if err != nil {
+			_ = c.Error(err)
+		}
+	}()
+
+	mobile := c.Query("mobile")
+	account, err := initialize.AccountServiceClient.GetAccountByMobile(c.Request.Context(), &pb.MobileRequest{
+		Mobile: mobile,
+	})
+	if err != nil {
+		return
+	}
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    account,
+	})
+}
+
+// GetAccountByID
+// @Summary GetAccountByID
+// @GetAccountByID get account
+// @ID GetAccountByID
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param id query int32 true "The user id"
+// @Success 200 {object} model.Response
+// @Failure default {object} model.Response "Return if any error"
+// @Header all {string} X-Request-Id "The unique id with this request"
+// @Router /v1/account/id [get]
+func GetAccountByID(c *gin.Context) {
+	var err error
+	defer func() {
+		if err != nil {
+			_ = c.Error(err)
+		}
+	}()
+	id := c.Param("id")
+	idNum, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return
+	}
+	account, err := initialize.AccountServiceClient.GetAccountByID(c.Request.Context(), &pb.IDRequest{
+		Id: int32(idNum),
+	})
+	if err != nil {
+		return
+	}
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    account,
+	})
+}
+
+func AddAccount(c *gin.Context) {
+
+}
+
+func UpdateAccount(c *gin.Context) {
+
+}
+
+func CheckPassword(c *gin.Context) {
+
 }

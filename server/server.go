@@ -42,6 +42,8 @@ func Start() {
 
 	group := engine.Group("/v1")
 	group.GET("/account/list", handler.GetAccountList)
+	group.GET("/account/mobile", handler.GetAccountByMobile)
+	group.GET("/account/id", handler.GetAccountByID)
 	//router.RegisterGetRouter(engine, "/v1", handler.GetHandlerMap)
 
 	// TODO 注册服务

@@ -4,6 +4,56 @@
         "contact": {}
     },
     "paths": {
+        "/v1/account/id": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "GetAccountByID",
+                "operationId": "GetAccountByID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "The user id",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/account/list": {
             "get": {
                 "consumes": [
@@ -13,7 +63,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "GetAccountList"
+                    "Account"
                 ],
                 "summary": "GetAccountList",
                 "operationId": "GetAccountList",
@@ -29,6 +79,56 @@
                         "type": "integer",
                         "description": "The Request PageSize",
                         "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/account/mobile": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "GetAccountByMobile",
+                "operationId": "GetAccountByMobile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "The user mobile",
+                        "name": "mobile",
                         "in": "query",
                         "required": true
                     }

@@ -10,6 +10,39 @@ definitions:
 info:
   contact: {}
 paths:
+  /v1/account/id:
+    get:
+      consumes:
+      - application/json
+      operationId: GetAccountByID
+      parameters:
+      - description: The user id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: GetAccountByID
+      tags:
+      - Account
   /v1/account/list:
     get:
       consumes:
@@ -47,5 +80,38 @@ paths:
             $ref: '#/definitions/model.Response'
       summary: GetAccountList
       tags:
-      - GetAccountList
+      - Account
+  /v1/account/mobile:
+    get:
+      consumes:
+      - application/json
+      operationId: GetAccountByMobile
+      parameters:
+      - description: The user mobile
+        in: query
+        name: mobile
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: GetAccountByMobile
+      tags:
+      - Account
 swagger: "2.0"
