@@ -3,10 +3,9 @@ package handler
 import (
 	"account-web/initialize"
 	"account-web/model"
-	pb "github.com/Gentleelephant/proto-center/pb/model"
+	pb "github.com/Gentleelephant/proto-center/pb/service/account"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strconv"
 )
 
 var (
@@ -28,7 +27,7 @@ var (
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
-// @Router /v1/account/list [get]
+// @Router /v1/account/page [get]
 func GetAccountList(c *gin.Context) {
 	var err error
 	defer func() {
@@ -36,20 +35,15 @@ func GetAccountList(c *gin.Context) {
 			_ = c.Error(err)
 		}
 	}()
-	pageNo := c.Query("pageNo")
-	pageSize := c.Query("pageSize")
-	uintPageNo, err := strconv.ParseUint(pageNo, 10, 64)
+	req := &pb.AccountPagingRequest{}
+	err = c.ShouldBindQuery(req)
 	if err != nil {
 		return
 	}
-	uintPageSize, err := strconv.ParseUint(pageSize, 10, 64)
 	if err != nil {
 		return
 	}
-	list, err := initialize.AccountServiceClient.GetAccountList(c.Request.Context(), &pb.AccountPagingRequest{
-		PageNo:   uint32(uintPageNo),
-		PageSize: uint32(uintPageSize),
-	})
+	list, err := initialize.AccountServiceClient.GetAccountList(c.Request.Context(), req)
 	if err != nil {
 		return
 	}
@@ -71,7 +65,7 @@ func GetAccountList(c *gin.Context) {
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
-// @Router /v1/account/mobile [get]
+// @Router /v1/account [get]
 func GetAccountByMobile(c *gin.Context) {
 	var err error
 	defer func() {
@@ -80,10 +74,12 @@ func GetAccountByMobile(c *gin.Context) {
 		}
 	}()
 
-	mobile := c.Query("mobile")
-	account, err := initialize.AccountServiceClient.GetAccountByMobile(c.Request.Context(), &pb.MobileRequest{
-		Mobile: mobile,
-	})
+	req := &pb.MobileRequest{}
+	err = c.ShouldBindQuery(req)
+	if err != nil {
+		return
+	}
+	account, err := initialize.AccountServiceClient.GetAccountByMobile(c.Request.Context(), req)
 	if err != nil {
 		return
 	}
@@ -113,14 +109,12 @@ func GetAccountByID(c *gin.Context) {
 			_ = c.Error(err)
 		}
 	}()
-	id := c.Param("id")
-	idNum, err := strconv.ParseInt(id, 10, 64)
+	req := &pb.IDRequest{}
+	err = c.ShouldBindJSON(req)
 	if err != nil {
 		return
 	}
-	account, err := initialize.AccountServiceClient.GetAccountByID(c.Request.Context(), &pb.IDRequest{
-		Id: int32(idNum),
-	})
+	account, err := initialize.AccountServiceClient.GetAccountByID(c.Request.Context(), req)
 	if err != nil {
 		return
 	}
@@ -138,7 +132,7 @@ func GetAccountByID(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param body  account  true "The account"
+// @Param body  account pb.AddAccountRequest true "The account"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
@@ -150,7 +144,7 @@ func AddAccount(c *gin.Context) {
 			_ = c.Error(err)
 		}
 	}()
-	var account model.AddAccount
+	var account *pb.AddAccountRequest
 	if err := c.ShouldBindJSON(&account); err != nil {
 		return
 	}
@@ -179,7 +173,7 @@ func AddAccount(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param body account  true "The account"
+// @Param body account pb.UpdateAccountRequest true "The account"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
@@ -191,8 +185,8 @@ func UpdateAccount(c *gin.Context) {
 			_ = c.Error(err)
 		}
 	}()
-	var account model.UpdateAccount
-	if err := c.ShouldBindJSON(&account); err != nil {
+	var account *pb.UpdateAccountRequest
+	if err = c.ShouldBindJSON(&account); err != nil {
 		return
 	}
 	resp, err := initialize.AccountServiceClient.UpdateAccount(c.Request.Context(), &pb.UpdateAccountRequest{
@@ -212,6 +206,40 @@ func UpdateAccount(c *gin.Context) {
 	})
 }
 
+// CheckPassword
+// @Summary CheckPassword
+// @CheckPassword Check password
+// @ID CheckPassword
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param body info pb.CheckPasswordRequest true "The password info"
+// @Success 200 {object} model.Response
+// @Failure default {object} model.Response "Return if any error"
+// @Header all {string} X-Request-Id "The unique id with this request"
+// @Router /v1/account [post]
 func CheckPassword(c *gin.Context) {
-
+	var err error
+	defer func() {
+		if err != nil {
+			_ = c.Error(err)
+		}
+	}()
+	var account *pb.CheckPasswordRequest
+	if err = c.ShouldBindJSON(&account); err != nil {
+		return
+	}
+	resp, err := initialize.AccountServiceClient.CheckPassword(c.Request.Context(), &pb.CheckPasswordRequest{
+		Password:     account.Password,
+		HashPassword: account.HashPassword,
+		AccountId:    account.AccountId,
+	})
+	if err != nil {
+		return
+	}
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    resp,
+	})
 }

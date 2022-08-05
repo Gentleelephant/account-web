@@ -62,6 +62,8 @@ github.com/Gentleelephant/common v0.0.0-20220802060502-40485bd29bf1 h1:G1AzyLsjU
 github.com/Gentleelephant/common v0.0.0-20220802060502-40485bd29bf1/go.mod h1:94c2BTbi1MOtbvW6exDVq8VHl8TCs0WYfuHnJ61iOTg=
 github.com/Gentleelephant/proto-center v0.0.0-20220701081818-1f68d2a72672 h1:s38IPRAChNN13cW2ReBx4+G689F8Yeqr66JQ+XX7u+E=
 github.com/Gentleelephant/proto-center v0.0.0-20220701081818-1f68d2a72672/go.mod h1:um8bH+Q/bWE5zkxH89XfgoIDg+o4a/JpkEi2LZT1kfw=
+github.com/Gentleelephant/proto-center v0.0.0-20220805160831-4440ff487d3b h1:z1pOQ4hpg2cqzDJWxvoDUFAZ9LtkkxEAOa2XZGvIoYI=
+github.com/Gentleelephant/proto-center v0.0.0-20220805160831-4440ff487d3b/go.mod h1:um8bH+Q/bWE5zkxH89XfgoIDg+o4a/JpkEi2LZT1kfw=
 github.com/KyleBanks/depth v1.2.1 h1:5h8fQADFrWtarTdtDudMmGsC7GPbOAu6RVB3ffsVFHc=
 github.com/KyleBanks/depth v1.2.1/go.mod h1:jzSb9d0L43HxTQfT+oSA1EEp2q+ne2uh6XgeJcm8brE=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=

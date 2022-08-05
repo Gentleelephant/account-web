@@ -4,7 +4,7 @@ import (
 	"account-web/config"
 	"fmt"
 	"github.com/Gentleelephant/common/utils"
-	pb "github.com/Gentleelephant/proto-center/pb/model"
+	pb "github.com/Gentleelephant/proto-center/pb/service/account"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
