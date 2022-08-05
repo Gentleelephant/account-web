@@ -101,11 +101,11 @@ func GetAccountByMobile(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param id query int32 true "The user id"
+// @Param id path int32 true "The user id"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
-// @Router /v1/account/id [get]
+// @Router /v1/account/[id] [get]
 func GetAccountByID(c *gin.Context) {
 	var err error
 	defer func() {
@@ -131,12 +131,85 @@ func GetAccountByID(c *gin.Context) {
 	})
 }
 
+// AddAccount
+// @Summary AddAccount
+// @AddAccount add account
+// @ID AddAccount
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param body  account  true "The account"
+// @Success 200 {object} model.Response
+// @Failure default {object} model.Response "Return if any error"
+// @Header all {string} X-Request-Id "The unique id with this request"
+// @Router /v1/account [post]
 func AddAccount(c *gin.Context) {
+	var err error
+	defer func() {
+		if err != nil {
+			_ = c.Error(err)
+		}
+	}()
+	var account model.AddAccount
+	if err := c.ShouldBindJSON(&account); err != nil {
+		return
+	}
+	resp, err := initialize.AccountServiceClient.AddAccount(c.Request.Context(), &pb.AddAccountRequest{
+		Mobile:   account.Mobile,
+		Password: account.Password,
+		Nickname: account.Nickname,
+		Gender:   account.Gender,
+	})
+	if err != nil {
+		return
+	}
+
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    resp,
+	})
 
 }
 
+// UpdateAccount
+// @Summary UpdateAccount
+// @AddAccount update account
+// @ID UpdateAccount
+// @Tags Account
+// @Accept json
+// @Produce json
+// @Param body account  true "The account"
+// @Success 200 {object} model.Response
+// @Failure default {object} model.Response "Return if any error"
+// @Header all {string} X-Request-Id "The unique id with this request"
+// @Router /v1/account [put]
 func UpdateAccount(c *gin.Context) {
-
+	var err error
+	defer func() {
+		if err != nil {
+			_ = c.Error(err)
+		}
+	}()
+	var account model.UpdateAccount
+	if err := c.ShouldBindJSON(&account); err != nil {
+		return
+	}
+	resp, err := initialize.AccountServiceClient.UpdateAccount(c.Request.Context(), &pb.UpdateAccountRequest{
+		Id:       account.Id,
+		Mobile:   account.Mobile,
+		Password: account.Password,
+		Nickname: account.Nickname,
+		Gender:   account.Gender,
+	})
+	if err != nil {
+		return
+	}
+	c.JSON(http.StatusOK, model.Response{
+		Code:    http.StatusOK,
+		Message: "success",
+		Data:    resp,
+	})
 }
 
 func CheckPassword(c *gin.Context) {

@@ -35,5 +35,4 @@ service:
   port: 20003
 
 account-srv:
-  host: "139.198.155.59"
-  port: 20001
+  name: "account-srv"
