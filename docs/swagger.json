@@ -4,114 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/v1/account/id": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "summary": "GetAccountByID",
-                "operationId": "GetAccountByID",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "The user id",
-                        "name": "id",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        },
-                        "headers": {
-                            "X-Request-Id": {
-                                "type": "string",
-                                "description": "The unique id with this request"
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Return if any error",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        },
-                        "headers": {
-                            "X-Request-Id": {
-                                "type": "string",
-                                "description": "The unique id with this request"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/account/list": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Account"
-                ],
-                "summary": "GetAccountList",
-                "operationId": "GetAccountList",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "The Request PageNo",
-                        "name": "pageNo",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "The Request PageSize",
-                        "name": "pageSize",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        },
-                        "headers": {
-                            "X-Request-Id": {
-                                "type": "string",
-                                "description": "The unique id with this request"
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Return if any error",
-                        "schema": {
-                            "$ref": "#/definitions/model.Response"
-                        },
-                        "headers": {
-                            "X-Request-Id": {
-                                "type": "string",
-                                "description": "The unique id with this request"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/account/mobile": {
+        "/v1/account": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -127,10 +20,216 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "The user mobile",
+                        "description": "@inject_tag: json:\"mobile\"",
                         "name": "mobile",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "UpdateAccount",
+                "operationId": "UpdateAccount",
+                "parameters": [
+                    {
+                        "description": "The account",
+                        "name": "params",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pb.UpdateAccountRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "CheckPassword",
+                "operationId": "CheckPassword",
+                "parameters": [
+                    {
+                        "description": "The password info",
+                        "name": "info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pb.CheckPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/account/page": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "GetAccountList",
+                "operationId": "GetAccountList",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "@inject_tag: json:\"page\"",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "@inject_tag: json:\"pageSize\"",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Return if any error",
+                        "schema": {
+                            "$ref": "#/definitions/model.Response"
+                        },
+                        "headers": {
+                            "X-Request-Id": {
+                                "type": "string",
+                                "description": "The unique id with this request"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/account/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Account"
+                ],
+                "summary": "GetAccountByID",
+                "operationId": "GetAccountByID",
+                "parameters": [
+                    {
+                        "description": "The user id",
+                        "name": "id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/pb.IDRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -171,6 +270,78 @@
                 },
                 "data": {},
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "pb.AddAccountRequest": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "description": "@inject_tag: json:\"gender\"",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "@inject_tag: json:\"mobile\"",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "@inject_tag: json:\"nickname\"",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "@inject_tag: json:\"password\"",
+                    "type": "string"
+                }
+            }
+        },
+        "pb.CheckPasswordRequest": {
+            "type": "object",
+            "properties": {
+                "hashPassword": {
+                    "description": "@inject_tag: json:\"hashPassword\"",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "@inject_tag: json:\"id\"",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "@inject_tag: json:\"password\"",
+                    "type": "string"
+                }
+            }
+        },
+        "pb.IDRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "@inject_tag: json:\"id\" form:\"id\"",
+                    "type": "integer"
+                }
+            }
+        },
+        "pb.UpdateAccountRequest": {
+            "type": "object",
+            "properties": {
+                "gender": {
+                    "description": "@inject_tag: json:\"gender\"",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "@inject_tag: json:\"id\"",
+                    "type": "integer"
+                },
+                "mobile": {
+                    "description": "@inject_tag: json:\"mobile\"",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "@inject_tag: json:\"nickname\"",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "@inject_tag: json:\"password\"",
                     "type": "string"
                 }
             }

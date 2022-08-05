@@ -22,8 +22,7 @@ var (
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param pageNo query uint true "The Request PageNo"
-// @Param pageSize query uint true "The Request PageSize"
+// @Param pageNo query pb.AccountPagingRequest true "The Request PageNo"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
@@ -61,7 +60,7 @@ func GetAccountList(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param mobile query string true "The user mobile"
+// @Param mobile query pb.MobileRequest true "The user mobile"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
@@ -97,11 +96,11 @@ func GetAccountByMobile(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param id path int32 true "The user id"
+// @Param id body pb.IDRequest true "The user id"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
-// @Router /v1/account/[id] [get]
+// @Router /v1/account/{id} [get]
 func GetAccountByID(c *gin.Context) {
 	var err error
 	defer func() {
@@ -110,7 +109,7 @@ func GetAccountByID(c *gin.Context) {
 		}
 	}()
 	req := &pb.IDRequest{}
-	err = c.ShouldBindJSON(req)
+	err = c.ShouldBindUri(req)
 	if err != nil {
 		return
 	}
@@ -132,8 +131,8 @@ func GetAccountByID(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param body  account pb.AddAccountRequest true "The account"
-// @Success 200 {object} model.Response
+// @Param params body pb.AddAccountRequest true "The account"
+// @Success 200 {objecIDRequestt} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
 // @Router /v1/account [post]
@@ -145,7 +144,7 @@ func AddAccount(c *gin.Context) {
 		}
 	}()
 	var account *pb.AddAccountRequest
-	if err := c.ShouldBindJSON(&account); err != nil {
+	if err = c.ShouldBindJSON(&account); err != nil {
 		return
 	}
 	resp, err := initialize.AccountServiceClient.AddAccount(c.Request.Context(), &pb.AddAccountRequest{
@@ -173,7 +172,7 @@ func AddAccount(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param body account pb.UpdateAccountRequest true "The account"
+// @Param params body pb.UpdateAccountRequest true "The account"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"
@@ -213,7 +212,7 @@ func UpdateAccount(c *gin.Context) {
 // @Tags Account
 // @Accept json
 // @Produce json
-// @Param body info pb.CheckPasswordRequest true "The password info"
+// @Param info body pb.CheckPasswordRequest true "The password info"
 // @Success 200 {object} model.Response
 // @Failure default {object} model.Response "Return if any error"
 // @Header all {string} X-Request-Id "The unique id with this request"

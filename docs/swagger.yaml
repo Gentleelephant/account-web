@@ -7,20 +7,170 @@ definitions:
       message:
         type: string
     type: object
+  pb.AddAccountRequest:
+    properties:
+      gender:
+        description: '@inject_tag: json:"gender"'
+        type: string
+      mobile:
+        description: '@inject_tag: json:"mobile"'
+        type: string
+      nickname:
+        description: '@inject_tag: json:"nickname"'
+        type: string
+      password:
+        description: '@inject_tag: json:"password"'
+        type: string
+    type: object
+  pb.CheckPasswordRequest:
+    properties:
+      hashPassword:
+        description: '@inject_tag: json:"hashPassword"'
+        type: string
+      id:
+        description: '@inject_tag: json:"id"'
+        type: string
+      password:
+        description: '@inject_tag: json:"password"'
+        type: string
+    type: object
+  pb.IDRequest:
+    properties:
+      id:
+        description: '@inject_tag: json:"id" form:"id"'
+        type: integer
+    type: object
+  pb.UpdateAccountRequest:
+    properties:
+      gender:
+        description: '@inject_tag: json:"gender"'
+        type: string
+      id:
+        description: '@inject_tag: json:"id"'
+        type: integer
+      mobile:
+        description: '@inject_tag: json:"mobile"'
+        type: string
+      nickname:
+        description: '@inject_tag: json:"nickname"'
+        type: string
+      password:
+        description: '@inject_tag: json:"password"'
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /v1/account/id:
+  /v1/account:
+    get:
+      consumes:
+      - application/json
+      operationId: GetAccountByMobile
+      parameters:
+      - description: '@inject_tag: json:"mobile"'
+        in: query
+        name: mobile
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: GetAccountByMobile
+      tags:
+      - Account
+    post:
+      consumes:
+      - application/json
+      operationId: CheckPassword
+      parameters:
+      - description: The password info
+        in: body
+        name: info
+        required: true
+        schema:
+          $ref: '#/definitions/pb.CheckPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: CheckPassword
+      tags:
+      - Account
+    put:
+      consumes:
+      - application/json
+      operationId: UpdateAccount
+      parameters:
+      - description: The account
+        in: body
+        name: params
+        required: true
+        schema:
+          $ref: '#/definitions/pb.UpdateAccountRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+        default:
+          description: Return if any error
+          headers:
+            X-Request-Id:
+              description: The unique id with this request
+              type: string
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: UpdateAccount
+      tags:
+      - Account
+  /v1/account/{id}:
     get:
       consumes:
       - application/json
       operationId: GetAccountByID
       parameters:
       - description: The user id
-        in: query
+        in: body
         name: id
         required: true
-        type: integer
+        schema:
+          $ref: '#/definitions/pb.IDRequest'
       produces:
       - application/json
       responses:
@@ -43,21 +193,19 @@ paths:
       summary: GetAccountByID
       tags:
       - Account
-  /v1/account/list:
+  /v1/account/page:
     get:
       consumes:
       - application/json
       operationId: GetAccountList
       parameters:
-      - description: The Request PageNo
+      - description: '@inject_tag: json:"page"'
         in: query
-        name: pageNo
-        required: true
+        name: page
         type: integer
-      - description: The Request PageSize
+      - description: '@inject_tag: json:"pageSize"'
         in: query
         name: pageSize
-        required: true
         type: integer
       produces:
       - application/json
@@ -79,39 +227,6 @@ paths:
           schema:
             $ref: '#/definitions/model.Response'
       summary: GetAccountList
-      tags:
-      - Account
-  /v1/account/mobile:
-    get:
-      consumes:
-      - application/json
-      operationId: GetAccountByMobile
-      parameters:
-      - description: The user mobile
-        in: query
-        name: mobile
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          headers:
-            X-Request-Id:
-              description: The unique id with this request
-              type: string
-          schema:
-            $ref: '#/definitions/model.Response'
-        default:
-          description: Return if any error
-          headers:
-            X-Request-Id:
-              description: The unique id with this request
-              type: string
-          schema:
-            $ref: '#/definitions/model.Response'
-      summary: GetAccountByMobile
       tags:
       - Account
 swagger: "2.0"
